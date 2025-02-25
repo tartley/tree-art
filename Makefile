@@ -4,9 +4,21 @@ help: ## Show this help.
 	@grep -E '^[^_][a-zA-Z_\/\.%-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%+14s\033[0m %s\n", $$1, $$2}'
 .PHONY: help
 
+name=tree-art
+
+## System dependencies
+
+apt-packages:
+	sudo apt install -y imagemagick
+.PHONY: apt-packages
+
+py-packages: ve-install-dev
+.PHONY: py-packages
+
+setup: apt-packages py-packages ## Install dependencies (requires sudo password)
+
 ## Virtualenv
 
-name=tree-art
 ve=${HOME}/.virtualenvs/${name}
 pip=${ve}/bin/pip
 python=${ve}/bin/python3
@@ -85,14 +97,14 @@ clean: ## Delete generated files
 svg: $(name).svg ## Generate the SVG
 .PHONY: svg
 
-$(name).svg: $(name).py
+$(name).svg: $(ve) $(name).py
 	# 8 seconds
 	$(python) tree-art.py -i18 -o $@
 
 
 ## Conversion of the output image
 
-png: $(name).svg ## Convert SVG to a PNG
+png: $(name).png ## Convert SVG to a PNG
 .PHONY: png
 
 %.png: %.svg
