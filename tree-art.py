@@ -56,7 +56,7 @@ def branch(args, start, *, direction, length, width, iteration=0):
         e1.y,
         close=True,
         fill="#210",
-        stroke="invis",
+        stroke="none",
     )
     for bend in [+1, -1]:
         yield from branch(
