@@ -62,7 +62,7 @@ def branch(args, start, *, direction, length, width, iteration=0):
         yield from branch(
             args,
             start=end,
-            direction=direction + bend * random.triangular(T32, 5 * T32),
+            direction=direction + bend * random.uniform(T32, 5 * T32),
             length=length * random.uniform(0.6, 0.9),
             width=width * 2 / 3,
             iteration=iteration + 1,
